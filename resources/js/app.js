@@ -41,7 +41,16 @@ async function bootScanner() {
     initScanner(el);
 }
 
+/**
+ * Livewire 4 fires "livewire:navigated" on the initial load as well as after wire:navigate,
+ * so guard per page (the <body> is replaced on navigation) to never boot twice.
+ */
 function boot() {
+    if (document.body.dataset.booted) {
+        return;
+    }
+    document.body.dataset.booted = 'true';
+
     bootMotion();
     bootScanner();
 }

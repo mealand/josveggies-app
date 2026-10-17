@@ -42,9 +42,10 @@ function heroIntro() {
     }
 
     gsap.timeline({ defaults: { ease: 'expo.out' } })
-        .from(lines, { yPercent: 110, opacity: 0, duration: 1.1, stagger: 0.12 })
-        .from('[data-hero-fade]', { y: 24, opacity: 0, duration: 0.9, stagger: 0.08 }, '-=0.7')
-        .from('[data-hero-veg]', { scale: 0.4, opacity: 0, rotate: -25, duration: 1.2, stagger: 0.07, ease: 'back.out(1.7)' }, '-=1');
+        // fromTo with explicit end values: an interrupted or repeated run can never freeze mid-way.
+        .fromTo(lines, { yPercent: 110, opacity: 0 }, { yPercent: 0, opacity: 1, duration: 1.1, stagger: 0.12 })
+        .fromTo('[data-hero-fade]', { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: 0.9, stagger: 0.08 }, '-=0.7')
+        .fromTo('[data-hero-veg]', { scale: 0.4, opacity: 0, rotate: -25 }, { scale: 1, opacity: 1, rotate: 0, duration: 1.2, stagger: 0.07, ease: 'back.out(1.7)' }, '-=1');
 }
 
 function reveals() {
@@ -118,7 +119,7 @@ function timelines() {
 
     const steps = gsap.utils.toArray('[data-timeline-step]');
     if (steps.length) {
-        gsap.from(steps, { x: -16, opacity: 0, duration: 0.7, ease: 'expo.out', stagger: 0.08 });
+        gsap.fromTo(steps, { x: -16, opacity: 0 }, { x: 0, opacity: 1, duration: 0.7, ease: 'expo.out', stagger: 0.08 });
     }
 }
 
