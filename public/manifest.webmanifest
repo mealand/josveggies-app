@@ -1,0 +1,12 @@
+{
+    "name": "JosVeggies",
+    "short_name": "JosVeggies",
+    "description": "Fresh vegetables from Jos, pre-ordered and delivered to Abuja.",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#fdfbf6",
+    "theme_color": "#2e6b30",
+    "icons": [
+        { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+    ]
+}

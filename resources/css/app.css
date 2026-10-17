@@ -1,0 +1,242 @@
+@import 'tailwindcss';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source '../views/**/*.blade.php';
+@source '../js/**/*.js';
+
+/* -------------------------------------------------------------------------
+ | JosVeggies design tokens
+ | Deep leaf green, warm market cream, tomato and pepper accents.
+ * ---------------------------------------------------------------------- */
+@theme {
+    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji';
+    --font-display: 'Fraunces', ui-serif, Georgia, serif;
+
+    --color-leaf-50: #f0f7f1;
+    --color-leaf-100: #dcefe0;
+    --color-leaf-200: #b9dec2;
+    --color-leaf-300: #8bc49b;
+    --color-leaf-400: #5aa472;
+    --color-leaf-500: #3a8755;
+    --color-leaf-600: #2e6b30;
+    --color-leaf-700: #245627;
+    --color-leaf-800: #1d4421;
+    --color-leaf-900: #14301a;
+    --color-leaf-950: #0b1d0f;
+
+    --color-cream-50: #fdfbf6;
+    --color-cream-100: #f9f4e8;
+    --color-cream-200: #f1e7cf;
+    --color-cream-300: #e6d5ac;
+
+    --color-tomato-400: #f0795a;
+    --color-tomato-500: #e4572e;
+    --color-tomato-600: #c8401b;
+
+    --color-pepper-300: #ffd27a;
+    --color-pepper-400: #f8bd45;
+    --color-pepper-500: #f2a71b;
+
+    --color-ink: #14231a;
+
+    --radius-blob: 2.25rem;
+
+    --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+    --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+
+    --animate-marquee: marquee 38s linear infinite;
+    --animate-float: float 7s ease-in-out infinite;
+    --animate-float-slow: float 11s ease-in-out infinite;
+    --animate-pulse-ring: pulse-ring 2.2s var(--ease-out-expo) infinite;
+    --animate-shimmer: shimmer 2.4s linear infinite;
+
+    @keyframes marquee {
+        from { transform: translateX(0); }
+        to { transform: translateX(-50%); }
+    }
+
+    @keyframes float {
+        0%, 100% { transform: translateY(0) rotate(0deg); }
+        50% { transform: translateY(-14px) rotate(4deg); }
+    }
+
+    @keyframes pulse-ring {
+        0% { transform: scale(0.8); opacity: 0.7; }
+        100% { transform: scale(2.2); opacity: 0; }
+    }
+
+    @keyframes shimmer {
+        from { background-position: -200% 0; }
+        to { background-position: 200% 0; }
+    }
+}
+
+/* Cross-document page transitions (progressive enhancement). */
+@view-transition {
+    navigation: auto;
+}
+
+::view-transition-old(root) {
+    animation: 220ms var(--ease-out-expo) both vt-fade-out;
+}
+
+::view-transition-new(root) {
+    animation: 380ms var(--ease-out-expo) both vt-fade-in;
+}
+
+@keyframes vt-fade-out {
+    to { opacity: 0; transform: translateY(-6px); }
+}
+
+@keyframes vt-fade-in {
+    from { opacity: 0; transform: translateY(10px); }
+}
+
+@layer base {
+    html {
+        -webkit-tap-highlight-color: transparent;
+        scroll-behavior: smooth;
+    }
+
+    body {
+        @apply bg-cream-50 font-sans text-ink antialiased;
+        text-rendering: optimizeLegibility;
+    }
+
+    h1, h2, h3, .font-display {
+        font-family: var(--font-display);
+        font-optical-sizing: auto;
+        letter-spacing: -0.02em;
+    }
+
+    ::selection {
+        @apply bg-pepper-300 text-ink;
+    }
+
+    :focus-visible {
+        @apply outline-2 outline-offset-2 outline-leaf-500;
+    }
+
+    [x-cloak] {
+        display: none !important;
+    }
+}
+
+@utility btn {
+    @apply relative inline-flex min-h-11 items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold transition duration-300 select-none disabled:cursor-not-allowed disabled:opacity-50;
+    transition-timing-function: var(--ease-out-expo);
+}
+
+@utility btn-primary {
+    @apply btn bg-leaf-600 text-white shadow-lg shadow-leaf-900/15 hover:-translate-y-0.5 hover:bg-leaf-700 hover:shadow-xl active:translate-y-0;
+}
+
+@utility btn-accent {
+    @apply btn bg-tomato-500 text-white shadow-lg shadow-tomato-600/25 hover:-translate-y-0.5 hover:bg-tomato-600;
+}
+
+@utility btn-ghost {
+    @apply btn border border-leaf-900/15 bg-white/70 text-leaf-900 backdrop-blur hover:border-leaf-600 hover:bg-white;
+}
+
+@utility btn-danger {
+    @apply btn bg-red-600 text-white hover:bg-red-700;
+}
+
+@utility btn-sm {
+    @apply min-h-9 px-3.5 py-1.5 text-xs;
+}
+
+@utility card {
+    @apply rounded-3xl border border-leaf-900/8 bg-white shadow-[0_1px_0_rgba(20,48,26,0.04),0_12px_32px_-18px_rgba(20,48,26,0.25)];
+}
+
+@utility input {
+    @apply block w-full rounded-2xl border border-leaf-900/15 bg-white px-4 py-3 text-base text-ink placeholder:text-leaf-900/35 transition focus:border-leaf-500 focus:ring-4 focus:ring-leaf-500/15 focus:outline-none sm:text-sm;
+}
+
+@utility label {
+    @apply mb-1.5 block text-sm font-semibold text-leaf-900;
+}
+
+@utility eyebrow {
+    @apply text-xs font-bold tracking-[0.18em] text-tomato-500 uppercase;
+}
+
+@utility chip {
+    @apply inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-semibold;
+}
+
+@utility link {
+    @apply font-semibold text-leaf-700 underline decoration-leaf-300 decoration-2 underline-offset-4 transition hover:decoration-leaf-600;
+}
+
+@utility shimmer {
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.55), transparent);
+    background-size: 200% 100%;
+    @apply animate-shimmer;
+}
+
+@utility grain {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.05'/%3E%3C/svg%3E");
+}
+
+@utility prose-policy {
+    @apply max-w-none space-y-4 text-[15px] leading-relaxed text-leaf-950/80;
+}
+
+@layer components {
+    .prose-policy h2 {
+        @apply mt-8 text-2xl text-leaf-900;
+    }
+
+    .prose-policy h3 {
+        @apply mt-6 text-lg font-semibold text-leaf-900;
+    }
+
+    .prose-policy ul {
+        @apply list-disc space-y-1 pl-6;
+    }
+
+    .prose-policy ol {
+        @apply list-decimal space-y-1 pl-6;
+    }
+
+    .prose-policy a {
+        @apply link;
+    }
+}
+
+/* Elements revealed by GSAP start hidden only when JS + motion are available. */
+.js-motion [data-reveal] {
+    opacity: 0;
+    transform: translateY(28px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+
+    .js-motion [data-reveal] {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+/* Print styles for packing lists and labels printed from the console. */
+@media print {
+    .no-print {
+        display: none !important;
+    }
+
+    body {
+        background: #fff;
+    }
+}
